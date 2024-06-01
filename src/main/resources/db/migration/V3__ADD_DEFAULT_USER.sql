@@ -1,0 +1,1 @@
+insert into app_user (username, password) values ('admin', 'password');

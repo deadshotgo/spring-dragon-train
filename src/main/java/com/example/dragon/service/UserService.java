@@ -8,6 +8,9 @@ import com.example.dragon.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService {
     @Autowired
@@ -20,8 +23,11 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public Iterable<UserEntity> getUsers() {
-        return userRepo.findAll();
+    public List<User> getUsers() {
+        List<UserEntity> entities = userRepo.findAll();
+        return entities.stream()
+                .map(User::toModel)
+                .collect(Collectors.toList());
     }
 
     public User getUser(Long id) throws UserNotFoundException {

@@ -3,10 +3,13 @@ package com.example.dragon.controller;
 import com.example.dragon.entity.UserEntity;
 import com.example.dragon.exeption.UserAlreadyExistException;
 import com.example.dragon.exeption.UserNotFoundException;
+import com.example.dragon.model.User;
 import com.example.dragon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -30,7 +33,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> getUsers() {
         try {
-          Iterable<UserEntity> users = userService.getUsers();
+          List<User> users = userService.getUsers();
           return ResponseEntity.ok(users);
         } catch (Exception e) {
            return ResponseEntity.badRequest().body("Помилка");
@@ -46,7 +49,7 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Помилка");
         }
-    };
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
