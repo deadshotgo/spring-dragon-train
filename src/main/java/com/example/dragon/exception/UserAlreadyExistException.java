@@ -1,4 +1,4 @@
-package com.example.dragon.exeption;
+package com.example.dragon.exception;
 
 public class UserAlreadyExistException extends Exception {
     public UserAlreadyExistException(String message) {

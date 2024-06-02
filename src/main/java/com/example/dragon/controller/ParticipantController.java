@@ -1,8 +1,11 @@
 package com.example.dragon.controller;
 
-import com.example.dragon.model.Participant;
+import com.example.dragon.dto.participant.ResponseParticipant;
+import com.example.dragon.dto.participant.RequestParticipant;
 import com.example.dragon.service.ParticipantService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,23 +19,27 @@ public class ParticipantController {
     private ParticipantService participantService;
 
     @GetMapping
-    public List<Participant> getAllParticipants() {
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    public List<ResponseParticipant> getAllParticipants() {
         return participantService.getParticipants();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Participant> getParticipantById(@PathVariable Long id) {
-        Participant participant = participantService.getParticipant(id);
-        return participant != null ? ResponseEntity.ok(participant) : ResponseEntity.notFound().build();
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    public ResponseEntity<ResponseParticipant> getParticipantById(@PathVariable Long id) {
+        ResponseParticipant responseParticipant = participantService.getParticipant(id);
+        return ResponseEntity.ok(responseParticipant);
     }
 
     @PostMapping
-    public ResponseEntity<Participant> createParticipant(@RequestBody Participant participant) {
-        Participant createdParticipant = participantService.createParticipant(participant);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdParticipant);
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ResponseParticipant> createParticipant(@Valid @RequestBody RequestParticipant participant) {
+        ResponseParticipant createdResponseParticipant = participantService.createParticipant(participant);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdResponseParticipant);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Long> deleteParticipant(@PathVariable Long id) {
         return ResponseEntity.ok(participantService.deleteParticipant(id));
     }

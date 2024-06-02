@@ -1,8 +1,10 @@
 package com.example.dragon.service;
 
+import com.example.dragon.dto.participant.ResponseParticipant;
 import com.example.dragon.entity.ParticipantEntity;
-import com.example.dragon.model.Participant;
+import com.example.dragon.dto.participant.RequestParticipant;
 import com.example.dragon.repository.ParticipantRepo;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +16,37 @@ public class ParticipantService {
     @Autowired
     private ParticipantRepo participantRepo;
 
-    public List<Participant> getParticipants() {
+    public List<ResponseParticipant> getParticipants() {
         List<ParticipantEntity> entities = participantRepo.findAll();
         return entities.stream()
-                .map(Participant::toModel)
+                .map(ResponseParticipant::toModel)
                 .collect(Collectors.toList());
     }
 
-    public Participant getParticipant(Long id) {
+    public ResponseParticipant getParticipant(Long id) {
         ParticipantEntity entity = participantRepo.findById(id).orElse(null);
-        return entity != null ? Participant.toModel(entity) : null;
+        if (entity == null) {
+            throw new EntityNotFoundException("Participant with id " + id + " not found");
+        }
+        return ResponseParticipant.toModel(entity);
     }
 
-    public Participant createParticipant(Participant participant) {
-        ParticipantEntity entity = new ParticipantEntity();
-        entity.setName(participant.getName());
-        return Participant.toModel(participantRepo.save(entity));
+    public ResponseParticipant createParticipant(RequestParticipant participant) {
+        try {
+            ParticipantEntity entity = new ParticipantEntity();
+            entity.setName(participant.getName());
+            return ResponseParticipant.toModelReference(participantRepo.save(entity));
+        } catch (Exception e) {
+          throw new InternalError("Something went wrong");
+        }
     }
 
     public Long deleteParticipant(Long id) {
-        participantRepo.deleteById(id);
-        return id;
+        try {
+            participantRepo.deleteById(id);
+            return id;
+        } catch (Exception e) {
+            throw new InternalError("Something went wrong");
+        }
     }
 }

@@ -1,20 +1,21 @@
 package com.example.dragon.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Setter
-@Getter
+@Data
 @Table(name = "app_user")
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
-    public UserEntity() {}
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
+    private String roles;
 
 }

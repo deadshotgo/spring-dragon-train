@@ -1,12 +1,15 @@
 package com.example.dragon.controller;
 
+import com.example.dragon.dto.user.RequestUser;
+import com.example.dragon.dto.user.ResponseUser;
 import com.example.dragon.entity.UserEntity;
-import com.example.dragon.exeption.UserAlreadyExistException;
-import com.example.dragon.exeption.UserNotFoundException;
-import com.example.dragon.model.User;
+import com.example.dragon.exception.UserAlreadyExistException;
 import com.example.dragon.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,54 +22,29 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity registration(@RequestBody UserEntity user){
-        try {
-            userService.createUser(user);
-            return ResponseEntity.ok("User is created");
-        } catch (UserAlreadyExistException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
-        }
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ResponseUser> registration(@Valid @RequestBody RequestUser user) throws UserAlreadyExistException {
+        ResponseUser createdResponseUser = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdResponseUser);
     }
 
     @GetMapping
-    public ResponseEntity<?> getUsers() {
-        try {
-          List<User> users = userService.getUsers();
-          return ResponseEntity.ok(users);
-        } catch (Exception e) {
-           return ResponseEntity.badRequest().body("Помилка");
-        }
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<List<ResponseUser>> getUsers() {
+      List<ResponseUser> users = userService.getUsers();
+      return ResponseEntity.ok(users);
     };
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUser(@PathVariable Long id) {
-        try {
-            return  ResponseEntity.ok(userService.getUser(id));
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Помилка");
-        }
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ResponseUser> getUser(@PathVariable Long id) {
+        return  ResponseEntity.ok(userService.getUser(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
-        try {
-            return ResponseEntity.ok(userService.deleteUser(id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Помилка");
-        }
-    };
-
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUser(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(userService.deleteUser(id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Помилка");
-        }
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Long> deleteUser(@PathVariable Long id) {
+         return ResponseEntity.ok(userService.deleteUser(id));
     };
 
 }

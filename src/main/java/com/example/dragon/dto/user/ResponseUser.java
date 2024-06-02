@@ -1,4 +1,4 @@
-package com.example.dragon.model;
+package com.example.dragon.dto.user;
 
 import com.example.dragon.entity.UserEntity;
 import lombok.Getter;
@@ -6,17 +6,14 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class User {
+public class ResponseUser {
     private Long id;
     private String username;
 
-    public static User toModel(UserEntity entity) {
-        User model = new User();
+    public static ResponseUser toModel(UserEntity entity) {
+        ResponseUser model = new ResponseUser();
         model.setId(entity.getId());
         model.setUsername(entity.getUsername());
         return model;
     }
-
-    public User() {}
-
 }
