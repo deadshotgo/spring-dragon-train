@@ -3,6 +3,8 @@ package com.example.dragon.controller;
 import com.example.dragon.dto.competition.RequestCompetition;
 import com.example.dragon.dto.competition.ResponseCompetition;
 import com.example.dragon.service.CompetitionService;
+import com.example.dragon.swagger.GenerateApiDoc;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,15 +16,28 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/competitions")
+@Tag(name = "Competition", description = "Endpoints for competition management")
 public class CompetitionController {
     @Autowired
     private CompetitionService competitionService;
 
+    @GenerateApiDoc(
+            summary = "Get all competitions",
+            description = "Retrieve a list of all competitions",
+            responseDescription = "List of competitions retrieved successfully",
+            responseClass = ResponseCompetition.class
+    )
     @GetMapping
     public List<ResponseCompetition> getAllCompetitions() {
         return competitionService.getCompetitions();
     }
 
+    @GenerateApiDoc(
+            summary = "Get competition by ID",
+            description = "Retrieve a competition by its unique identifier",
+            responseDescription = "Competition retrieved successfully by ID",
+            responseClass = ResponseCompetition.class
+    )
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<ResponseCompetition> getCompetitionById(@PathVariable Long id) {
@@ -30,6 +45,13 @@ public class CompetitionController {
         return ResponseEntity.ok(responseCompetition);
     }
 
+
+    @GenerateApiDoc(
+            summary = "Create a new competition",
+            description = "Create a new competition with the provided data",
+            responseDescription = "Competition created successfully",
+            responseClass = ResponseCompetition.class
+    )
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ResponseCompetition> createCompetition(@Valid @RequestBody RequestCompetition competition) {
@@ -37,6 +59,13 @@ public class CompetitionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdResponseCompetition);
     }
 
+
+    @GenerateApiDoc(
+            summary = "Delete competition by ID",
+            description = "Delete a competition by its unique identifier",
+            responseDescription = "Competition deleted successfully",
+            responseClass = Long.class
+    )
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Long> deleteCompetition(@PathVariable Long id) {

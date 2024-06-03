@@ -7,9 +7,12 @@ import com.example.dragon.dto.user.ResponseUser;
 import com.example.dragon.exception.UserAlreadyExistException;
 import com.example.dragon.service.JwtService;
 import com.example.dragon.service.UserService;
+import com.example.dragon.swagger.GenerateApiDoc;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Authentication", description = "Endpoints for user authentication and registration")
 public class AuthController {
 
     @Autowired
@@ -33,7 +37,14 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/generate-token")
+    @GenerateApiDoc(
+            summary = "Generate JWT",
+            description = "Authenticate user and return JWT token",
+            responseCode = "200",
+            responseDescription = "Token successfully generated",
+            responseClass = ResponseAuth.class
+    )
+    @PostMapping(value = "/generate-token", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseAuth> authenticateAndGetToken(@Valid @RequestBody RequestAuth requestAuth) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestAuth.getUsername(), requestAuth.getPassword()));
         if (authentication.isAuthenticated()) {
@@ -44,6 +55,12 @@ public class AuthController {
         }
     }
 
+    @GenerateApiDoc(
+            summary = "Register new user",
+            description = "Register new user and generate JWT token",
+            responseDescription = "User created and token generated successfully",
+            responseClass = ResponseAuth.class
+    )
     @PostMapping("/create-user")
     public ResponseEntity<ResponseAuth> registrationUser(@Valid @RequestBody RequestUser requestUser) throws UserAlreadyExistException {
         ResponseUser createdResponseUser = userService.createUserHasAuth(requestUser);
