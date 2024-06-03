@@ -44,7 +44,7 @@ public class AuthController {
             responseDescription = "Token successfully generated",
             responseClass = ResponseAuth.class
     )
-    @PostMapping(value = "/generate-token", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/generate-token")
     public ResponseEntity<ResponseAuth> authenticateAndGetToken(@Valid @RequestBody RequestAuth requestAuth) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestAuth.getUsername(), requestAuth.getPassword()));
         if (authentication.isAuthenticated()) {
