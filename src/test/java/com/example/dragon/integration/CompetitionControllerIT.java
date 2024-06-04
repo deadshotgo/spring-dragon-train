@@ -1,11 +1,7 @@
-package com.example.dragon.It;
+package com.example.dragon.integration;
 
-import com.example.dragon.entity.CompetitionEntity;
-import com.example.dragon.entity.ParticipantEntity;
-import com.example.dragon.entity.ResultEntity;
 import com.example.dragon.repository.CompetitionRepo;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +12,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Sql("/sql/testCompetitionController/data_test.sql")
+@Sql("/sql/test_competition_controller/data_test.sql")
 @SpringBootTest
 @AutoConfigureMockMvc(printOnlyOnFailure = false)
 @Transactional
@@ -35,7 +28,7 @@ public class CompetitionControllerIT {
     CompetitionRepo repository;
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user", roles = {"ADMIN"})
     @DisplayName("GET /api/v1/competitions - success request")
     void handleGetAllCompetitions_ReturnValidResponseEntity() throws Exception {
         //given
@@ -51,12 +44,11 @@ public class CompetitionControllerIT {
                           jsonPath("$[0].dateStart").value("12-01-2024"),
                           jsonPath("$[0].dateEnd").value("13-02-2024"),
                           jsonPath("$[0].results").exists()
-                  )
-          ;
+                  );
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user", roles = {"ADMIN"})
     @DisplayName("GET /api/v1/competitions/1 - success request")
     void handleGetCompetitionById_ReturnValidResponseEntity() throws Exception {
         var requestBuilder = get("/api/v1/competitions/1");
@@ -147,5 +139,19 @@ public class CompetitionControllerIT {
                 );
     }
 
+
+    @Test
+    @WithMockUser(username = "user", roles = {"ADMIN"})
+    @DisplayName("DELETE /api/v1/competitions/1 success request")
+    void handleDeleteCompetition_ReturnValidResponse() throws Exception {
+        var requestBuilder = delete("/api/v1/competitions/1")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        this.mockMvc.perform(requestBuilder)
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON)
+                );
+    }
 
 }

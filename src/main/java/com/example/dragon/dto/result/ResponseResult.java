@@ -13,8 +13,8 @@ import lombok.Setter;
 public class ResponseResult {
     private Long id;
     private String score;
-    private ResponseCompetition responseCompetition;
-    private ResponseParticipant responseParticipant; // Додане поле
+    private ResponseCompetition competition;
+    private ResponseParticipant participant; // Додане поле
 
     public static ResponseResult toModel(ResultEntity entity) {
         ResponseResult model = new ResponseResult();
@@ -25,20 +25,20 @@ public class ResponseResult {
 
     public static ResponseResult toModelWithOutCompetition(ResultEntity entity) {
         ResponseResult model = toModel(entity);
-        model.setResponseParticipant(ResponseParticipant.toModelReference(entity.getParticipant()));
+        model.setParticipant(ResponseParticipant.toModelReference(entity.getParticipant()));
         return model;
     }
 
     public static ResponseResult toModelWithOutParticipant(ResultEntity entity) {
         ResponseResult model = toModel(entity);
-        model.setResponseCompetition(ResponseCompetition.toModelReference(entity.getCompetition()));
+        model.setCompetition(ResponseCompetition.toModelReference(entity.getCompetition()));
         return model;
     }
 
     public static ResponseResult toModelWithRelations(ResultEntity entity) {
         ResponseResult model = toModel(entity);
-        model.setResponseCompetition(ResponseCompetition.toModelReference(entity.getCompetition()));
-        model.setResponseParticipant(ResponseParticipant.toModelReference(entity.getParticipant()));
+        model.setCompetition(ResponseCompetition.toModelReference(entity.getCompetition()));
+        model.setParticipant(ResponseParticipant.toModelReference(entity.getParticipant()));
         return model;
     }
 

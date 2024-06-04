@@ -1,6 +1,8 @@
 package com.example.dragon.dto.result;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,9 +13,9 @@ public class RequestResult {
     @NotBlank(message = "score is mandatory")
     private String score;
 
-    @NotBlank(message = "competitionId is mandatory")
+    @NotNull(message = "competitionId is mandatory")
     private Long competitionId;
 
-    @NotBlank(message = "participantId is mandatory")
+    @NotNull(message = "participantId is mandatory")
     private Long participantId;
 }

@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @RestController
-@RequestMapping("/participants")
+@RequestMapping("/api/v1/participants")
 @Tag(name = "Participants", description = "Endpoints for participant management")
 public class ParticipantController {
     @Autowired

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/results")
+@RequestMapping("/api/v1/results")
 @Tag(name = "Result", description = "Endpoints for result management")
 public class ResultController {
     @Autowired
