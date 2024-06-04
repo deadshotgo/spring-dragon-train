@@ -63,10 +63,10 @@ public class AuthController {
     )
     @PostMapping("/create-user")
     public ResponseEntity<ResponseAuth> registrationUser(@Valid @RequestBody RequestUser requestUser) throws UserAlreadyExistException {
-        ResponseUser createdResponseUser = userService.createUserHasAuth(requestUser);
+        ResponseUser responseUser = userService.createUserHasAuth(requestUser);
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestUser.getUsername(), requestUser.getPassword()));
         if (authentication.isAuthenticated()){
-            ResponseAuth response = new ResponseAuth(jwtService.generateToken(createdResponseUser.getUsername()), createdResponseUser);
+            ResponseAuth response = new ResponseAuth(jwtService.generateToken(responseUser.getUsername()), responseUser);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } else {
             throw new UsernameNotFoundException("Invalid user request");

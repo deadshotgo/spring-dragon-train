@@ -2,6 +2,7 @@ package com.example.dragon.exception;
 
 import com.example.dragon.dto.error.ErrorResponse;
 import com.example.dragon.dto.error.ErrorValidateResponse;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -35,6 +36,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getMessage()));
     }
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleExceptionNotFound(Exception e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(e.getMessage()));
+    }
 
 }
 

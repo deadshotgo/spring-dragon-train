@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/competitions")
+@RequestMapping("/api/v1/competitions")
 @Tag(name = "Competition", description = "Endpoints for competition management")
 public class CompetitionController {
     @Autowired
@@ -28,6 +28,7 @@ public class CompetitionController {
             responseClass = ResponseCompetition.class
     )
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public List<ResponseCompetition> getAllCompetitions() {
         return competitionService.getCompetitions();
     }

@@ -35,8 +35,8 @@ public class ResultController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<ResponseResult> getResultById(@PathVariable Long id) {
-        ResponseResult result = resultService.getResult(id);
-        return ResponseEntity.ok(result);
+        ResponseResult responseResult = resultService.getResult(id);
+        return ResponseEntity.ok(responseResult);
     }
 
     @GenerateApiDoc(
