@@ -1,17 +1,16 @@
 package com.example.dragon.controller;
 
-import com.example.dragon.dto.participant.ResponseParticipant;
 import com.example.dragon.dto.participant.RequestParticipant;
+import com.example.dragon.dto.participant.ResponseParticipant;
 import com.example.dragon.service.ParticipantService;
 import com.example.dragon.swagger.GenerateApiDoc;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -29,11 +28,12 @@ public class ParticipantController {
             responseDescription = "List of participants retrieved successfully",
             responseClass = ResponseParticipant.class
     )
-    @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @GetMapping
     public List<ResponseParticipant> getAllParticipants() {
         return participantService.getParticipants();
     }
+
 
     @GenerateApiDoc(
             summary = "Get participant by ID",
@@ -41,12 +41,13 @@ public class ParticipantController {
             responseDescription = "Participant retrieved successfully by ID",
             responseClass = ResponseParticipant.class
     )
-    @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @GetMapping("/{id}")
     public ResponseEntity<ResponseParticipant> getParticipantById(@PathVariable Long id) {
         ResponseParticipant responseParticipant = participantService.getParticipant(id);
         return ResponseEntity.ok(responseParticipant);
     }
+
 
     @GenerateApiDoc(
             summary = "Create a new participant",
@@ -54,12 +55,13 @@ public class ParticipantController {
             responseDescription = "Participant created successfully",
             responseClass = ResponseParticipant.class
     )
-    @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping
     public ResponseEntity<ResponseParticipant> createParticipant(@Valid @RequestBody RequestParticipant participant) {
         ResponseParticipant createdResponseParticipant = participantService.createParticipant(participant);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdResponseParticipant);
     }
+
 
     @GenerateApiDoc(
             summary = "Delete participant by ID",

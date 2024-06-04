@@ -1,11 +1,10 @@
 package com.example.dragon.service;
 
-import com.example.dragon.entity.CompetitionEntity;
-import com.example.dragon.dto.competition.ResponseCompetition;
 import com.example.dragon.dto.competition.RequestCompetition;
+import com.example.dragon.dto.competition.ResponseCompetition;
+import com.example.dragon.entity.CompetitionEntity;
 import com.example.dragon.repository.CompetitionRepo;
 import jakarta.persistence.EntityNotFoundException;
-import org.apache.logging.log4j.util.InternalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +25,8 @@ public class CompetitionService {
 
     public ResponseCompetition getCompetition(Long id) {
         CompetitionEntity entity = competitionRepo.findById(id).orElse(null);
-        if(entity == null) {
-            throw new EntityNotFoundException("Not found competition with id: " + id);
-        }
+        if(entity == null) throw new EntityNotFoundException("Not found competition with id: " + id);
+
         return ResponseCompetition.toModel(entity);
     }
 

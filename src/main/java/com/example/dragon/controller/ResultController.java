@@ -1,7 +1,7 @@
 package com.example.dragon.controller;
 
-import com.example.dragon.dto.result.ResponseResult;
 import com.example.dragon.dto.result.RequestResult;
+import com.example.dragon.dto.result.ResponseResult;
 import com.example.dragon.service.ResultService;
 import com.example.dragon.swagger.GenerateApiDoc;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,18 +26,20 @@ public class ResultController {
         return resultService.getResults();
     }
 
+
     @GenerateApiDoc(
             summary = "Get result by ID",
             description = "Retrieve a result by its unique identifier",
             responseDescription = "Result retrieved successfully by ID",
             responseClass = ResponseResult.class
     )
-    @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @GetMapping("/{id}")
     public ResponseEntity<ResponseResult> getResultById(@PathVariable Long id) {
         ResponseResult responseResult = resultService.getResult(id);
         return ResponseEntity.ok(responseResult);
     }
+
 
     @GenerateApiDoc(
             summary = "Create a new result",
@@ -45,12 +47,13 @@ public class ResultController {
             responseDescription = "Result created successfully",
             responseClass = ResponseResult.class
     )
-    @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PostMapping
     public ResponseEntity<ResponseResult> createResult(@Valid @RequestBody RequestResult result) {
         ResponseResult createdResult = resultService.createResult(result);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdResult);
     }
+
 
     @GenerateApiDoc(
             summary = "Delete result by ID",
@@ -58,8 +61,8 @@ public class ResultController {
             responseDescription = "Result deleted successfully",
             responseClass = Long.class
     )
-    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteResult(@PathVariable Long id) {
         return ResponseEntity.ok(resultService.deleteResult(id));
     }

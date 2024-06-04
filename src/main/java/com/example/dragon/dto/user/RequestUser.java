@@ -1,11 +1,11 @@
 package com.example.dragon.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RequestUser {
     @NotBlank(message = "Username is mandatory")
     private String username;

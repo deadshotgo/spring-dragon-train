@@ -2,6 +2,7 @@ package com.example.dragon.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Setter
 @Getter
 @Table(name = "participant")
+@NoArgsConstructor
 public class ParticipantEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +20,10 @@ public class ParticipantEntity {
 
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
     private List<ResultEntity> results;
+
+    public ParticipantEntity(Long id, String name, List<ResultEntity> results) {
+        this.id = id;
+        this.name = name;
+        this.results = results;
+    }
 }

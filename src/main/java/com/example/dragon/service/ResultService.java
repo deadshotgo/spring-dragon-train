@@ -1,15 +1,14 @@
 package com.example.dragon.service;
 
 import com.example.dragon.dto.competition.ResponseCompetition;
-import com.example.dragon.entity.ResultEntity;
 import com.example.dragon.dto.participant.ResponseParticipant;
-import com.example.dragon.dto.result.ResponseResult;
 import com.example.dragon.dto.result.RequestResult;
+import com.example.dragon.dto.result.ResponseResult;
+import com.example.dragon.entity.ResultEntity;
 import com.example.dragon.repository.ResultRepo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

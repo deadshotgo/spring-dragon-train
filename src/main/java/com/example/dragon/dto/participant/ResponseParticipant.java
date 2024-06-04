@@ -3,7 +3,9 @@ package com.example.dragon.dto.participant;
 import com.example.dragon.entity.ParticipantEntity;
 import com.example.dragon.dto.result.ResponseResult;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResponseParticipant {
     private Long id;
     private String name;

@@ -1,8 +1,8 @@
 package com.example.dragon.service;
 
+import com.example.dragon.dto.participant.RequestParticipant;
 import com.example.dragon.dto.participant.ResponseParticipant;
 import com.example.dragon.entity.ParticipantEntity;
-import com.example.dragon.dto.participant.RequestParticipant;
 import com.example.dragon.repository.ParticipantRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,8 @@ public class ParticipantService {
 
     public ResponseParticipant getParticipant(Long id) {
         ParticipantEntity entity = participantRepo.findById(id).orElse(null);
-        if (entity == null) {
-            throw new EntityNotFoundException("Participant with id " + id + " not found");
-        }
+        if (entity == null) throw new EntityNotFoundException("Participant with id " + id + " not found");
+
         return ResponseParticipant.toModel(entity);
     }
 

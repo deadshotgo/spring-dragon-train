@@ -21,17 +21,20 @@ public class CompetitionController {
     @Autowired
     private CompetitionService competitionService;
 
+
     @GenerateApiDoc(
             summary = "Get all competitions",
             description = "Retrieve a list of all competitions",
             responseDescription = "List of competitions retrieved successfully",
             responseClass = ResponseCompetition.class
     )
-    @GetMapping
+
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @GetMapping
     public List<ResponseCompetition> getAllCompetitions() {
         return competitionService.getCompetitions();
     }
+
 
     @GenerateApiDoc(
             summary = "Get competition by ID",
@@ -39,8 +42,8 @@ public class CompetitionController {
             responseDescription = "Competition retrieved successfully by ID",
             responseClass = ResponseCompetition.class
     )
-    @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @GetMapping("/{id}")
     public ResponseEntity<ResponseCompetition> getCompetitionById(@PathVariable Long id) {
         ResponseCompetition responseCompetition = competitionService.getCompetition(id);
         return ResponseEntity.ok(responseCompetition);
@@ -53,8 +56,8 @@ public class CompetitionController {
             responseDescription = "Competition created successfully",
             responseClass = ResponseCompetition.class
     )
-    @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping
     public ResponseEntity<ResponseCompetition> createCompetition(@Valid @RequestBody RequestCompetition competition) {
         ResponseCompetition createdResponseCompetition = competitionService.createCompetition(competition);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdResponseCompetition);
@@ -67,8 +70,8 @@ public class CompetitionController {
             responseDescription = "Competition deleted successfully",
             responseClass = Long.class
     )
-    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteCompetition(@PathVariable Long id) {
         return ResponseEntity.ok(competitionService.deleteCompetition(id));
     }

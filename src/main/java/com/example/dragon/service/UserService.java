@@ -1,16 +1,17 @@
 package com.example.dragon.service;
-import com.example.dragon.entity.UserEntity;
+
 import com.example.dragon.dto.user.RequestUser;
 import com.example.dragon.dto.user.ResponseUser;
+import com.example.dragon.entity.UserEntity;
 import com.example.dragon.exception.UserAlreadyExistException;
 import com.example.dragon.repository.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,9 +45,8 @@ public class UserService implements UserDetailsService {
 
     public ResponseUser getUser(Long id) {
         UserEntity entity = userRepo.findById(id).orElse(null);
-        if (entity == null) {
-            throw new EntityNotFoundException("User with id " + id + " not found");
-        }
+        if (entity == null) throw new EntityNotFoundException("User with id " + id + " not found");
+
         return ResponseUser.toModel(entity);
     }
 

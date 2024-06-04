@@ -1,7 +1,7 @@
 package com.example.dragon.controller;
 
-import com.example.dragon.dto.auth.ResponseAuth;
 import com.example.dragon.dto.auth.RequestAuth;
+import com.example.dragon.dto.auth.ResponseAuth;
 import com.example.dragon.dto.user.RequestUser;
 import com.example.dragon.dto.user.ResponseUser;
 import com.example.dragon.exception.UserAlreadyExistException;
@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,6 +36,7 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+
     @GenerateApiDoc(
             summary = "Generate JWT",
             description = "Authenticate user and return JWT token",
@@ -54,6 +54,8 @@ public class AuthController {
             throw new UsernameNotFoundException("Invalid user request");
         }
     }
+
+
 
     @GenerateApiDoc(
             summary = "Register new user",

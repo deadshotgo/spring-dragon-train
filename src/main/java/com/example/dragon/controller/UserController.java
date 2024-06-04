@@ -23,6 +23,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @GenerateApiDoc(
             summary = "Register a new user",
             description = "Register a new user with the provided data",
@@ -36,18 +37,20 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdResponseUser);
     }
 
+
     @GenerateApiDoc(
             summary = "Get all users",
             description = "Retrieve a list of all registered users",
             responseDescription = "List of users retrieved successfully",
             responseClass = ResponseUser.class
     )
-    @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping
     public ResponseEntity<List<ResponseUser>> getUsers() {
       List<ResponseUser> users = userService.getUsers();
       return ResponseEntity.ok(users);
     }
+
 
     @GenerateApiDoc(
             summary = "Get user by ID",
@@ -55,11 +58,12 @@ public class UserController {
             responseDescription = "User retrieved successfully by ID",
             responseClass = ResponseUser.class
     )
-    @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/{id}")
     public ResponseEntity<ResponseUser> getUser(@PathVariable Long id) {
         return  ResponseEntity.ok(userService.getUser(id));
     }
+
 
     @GenerateApiDoc(
             summary = "Delete user by ID",
@@ -67,8 +71,8 @@ public class UserController {
             responseDescription = "User deleted successfully",
             responseClass = Long.class
     )
-    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteUser(@PathVariable Long id) {
          return ResponseEntity.ok(userService.deleteUser(id));
     }
