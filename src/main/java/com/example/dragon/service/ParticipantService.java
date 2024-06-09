@@ -32,8 +32,7 @@ public class ParticipantService {
 
     public ResponseParticipant createParticipant(RequestParticipant participant) {
         try {
-            ParticipantEntity entity = new ParticipantEntity();
-            entity.setName(participant.getName());
+            ParticipantEntity entity = new ParticipantEntity(participant.getName());
             return ResponseParticipant.toModelReference(participantRepo.save(entity));
         } catch (Exception e) {
           throw new InternalError("Something went wrong");

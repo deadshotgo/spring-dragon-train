@@ -26,6 +26,12 @@ public class CompetitionEntity {
     @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
     private List<ResultEntity> results;
 
+    public CompetitionEntity(String name, String dateStart, String dateEnd) {
+        this.name = name;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+    }
+
     public CompetitionEntity(Long id, String name, String dateStart, String dateEnd, List<ResultEntity> results) {
         this.id = id;
         this.name = name;

@@ -32,10 +32,7 @@ public class CompetitionService {
 
     public ResponseCompetition createCompetition(RequestCompetition competition) {
         try {
-            CompetitionEntity entity = new CompetitionEntity();
-            entity.setName(competition.getName());
-            entity.setDateStart(competition.getDateStart());
-            entity.setDateEnd(competition.getDateEnd());
+            CompetitionEntity entity = new CompetitionEntity(competition.getName(), competition.getDateStart(), competition.getDateEnd());
             return ResponseCompetition.toModelReference(competitionRepo.save(entity));
         } catch (Exception e) {
            throw new InternalError("Something went wrong");

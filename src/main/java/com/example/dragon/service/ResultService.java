@@ -39,11 +39,9 @@ public class ResultService {
             ResponseCompetition responseCompetition = competitionService.getCompetition(resultRequest.getCompetitionId());
             ResponseParticipant responseParticipant = participantService.getParticipant(resultRequest.getParticipantId());
 
-            ResultEntity entity = new ResultEntity();
-            entity.setScore(resultRequest.getScore());
-            entity.setCompetition(ResponseCompetition.toEntity(responseCompetition));
-            entity.setParticipant(ResponseParticipant.toEntity(responseParticipant));
-
+            ResultEntity entity = new ResultEntity(resultRequest.getScore(),
+                    ResponseCompetition.toEntity(responseCompetition),
+                    ResponseParticipant.toEntity(responseParticipant));
             return ResponseResult.toModelWithRelations(resultRepo.save(entity));
         } catch (Exception e) {
           throw new InternalError("Something went wrong");

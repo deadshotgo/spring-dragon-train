@@ -21,6 +21,10 @@ public class ParticipantEntity {
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
     private List<ResultEntity> results;
 
+    public ParticipantEntity(String name) {
+        this.name = name;
+    }
+
     public ParticipantEntity(Long id, String name, List<ResultEntity> results) {
         this.id = id;
         this.name = name;
