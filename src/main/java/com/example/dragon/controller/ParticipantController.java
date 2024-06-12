@@ -39,6 +39,7 @@ public class ParticipantController {
             summary = "Get participant by ID",
             description = "Retrieve a participant by its unique identifier",
             responseDescription = "Participant retrieved successfully by ID",
+            responseCode = "201",
             responseClass = ResponseParticipant.class
     )
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
@@ -53,6 +54,7 @@ public class ParticipantController {
             summary = "Create a new participant",
             description = "Create a new participant with the provided data",
             responseDescription = "Participant created successfully",
+            responseCode = "201",
             responseClass = ResponseParticipant.class
     )
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

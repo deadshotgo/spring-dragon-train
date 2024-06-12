@@ -28,6 +28,7 @@ public class UserController {
             summary = "Register a new user",
             description = "Register a new user with the provided data",
             responseDescription = "User registered successfully",
+            responseCode = "201",
             responseClass = ResponseUser.class
     )
     @PostMapping

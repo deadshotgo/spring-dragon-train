@@ -40,7 +40,6 @@ public class AuthController {
     @GenerateApiDoc(
             summary = "Generate JWT",
             description = "Authenticate user and return JWT token",
-            responseCode = "200",
             responseDescription = "Token successfully generated",
             responseClass = ResponseAuth.class
     )
@@ -61,6 +60,7 @@ public class AuthController {
             summary = "Register new user",
             description = "Register new user and generate JWT token",
             responseDescription = "User created and token generated successfully",
+            responseCode = "201",
             responseClass = ResponseAuth.class
     )
     @PostMapping("/create-user")

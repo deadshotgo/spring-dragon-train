@@ -54,6 +54,7 @@ public class CompetitionController {
             summary = "Create a new competition",
             description = "Create a new competition with the provided data",
             responseDescription = "Competition created successfully",
+            responseCode = "201",
             responseClass = ResponseCompetition.class
     )
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

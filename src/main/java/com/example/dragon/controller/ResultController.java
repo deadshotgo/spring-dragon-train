@@ -21,6 +21,14 @@ public class ResultController {
     @Autowired
     private ResultService resultService;
 
+
+    @GenerateApiDoc(
+            summary = "Get result by ID",
+            description = "Retrieve a result by its unique identifier",
+            responseDescription = "Result retrieved successfully by ID",
+            responseClass = ResponseResult.class
+    )
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping
     public List<ResponseResult> getResults() {
         return resultService.getResults();
@@ -45,6 +53,7 @@ public class ResultController {
             summary = "Create a new result",
             description = "Create a new result with the provided data",
             responseDescription = "Result created successfully",
+            responseCode = "201",
             responseClass = ResponseResult.class
     )
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
